@@ -1,0 +1,219 @@
+.typed-cursor {
+    opacity: 1;
+}
+
+.typed-cursor.typed-cursor--blink {
+    animation: typedjsBlink 0.7s infinite;
+    -webkit-animation: typedjsBlink 0.7s infinite;
+    animation: typedjsBlink 0.7s infinite;
+}
+
+@keyframes typedjsBlink {
+    50% {
+        opacity: 0.0;
+    }
+}
+
+@-webkit-keyframes typedjsBlink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.typed-fade-out {
+    opacity: 0;
+    transition: opacity .25s;
+}
+
+.typed-cursor.typed-cursor--blink.typed-fade-out {
+    -webkit-animation: 0;
+    animation: 0;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+body {
+    background-color: #282838;
+    background-size: cover;
+    color: #c5c5c5;
+    font-size: 14px;
+    transition-duration: 0.5s;
+    margin-left: 175px;
+    font-family: 'Inter', sans-serif;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    margin-right: 45px !important;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+.nav-link {
+    transition: 0.7s ease;
+}
+
+.nav-link:hover {
+    color: #6b6a6a;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    -webkit-transition: all 0.3 ease-in-out;
+    transition: all 0.3 ease-in-out;
+    background-color: #c5c5c5;
+}
+
+h1 {
+    font-size: 55px;
+    position: relative;
+    text-align: left;
+    display: block;
+    top: 35vh;
+    text-rendering: optimizeLegibility;
+    font-weight: 400;
+}
+
+h1 span {
+    color: #6cde6ad6;
+}
+
+what {
+    color: #c5c5c5
+}
+
+
+
+p1 {
+    font-size: 16px;
+    position: relative;
+    text-align: left;
+    display: block;
+    top: 40vh;
+    text-rendering: optimizeLegibility;
+    font-weight: 400;
+}
+
+name {
+    color: #6a98ded6;
+}
+
+ion-icon {
+    font-size: 30px;
+    position: relative;
+    top: 38vh;
+    display: inline-block;
+    margin-right: 30px;
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.945)
+}
+
+ion-icon:hover {
+    color: rgba(153, 153, 153, 0.84)
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+button {
+    position: relative;
+    display: block;
+    background-color: black;
+    color: white;
+    top: 70vh;
+    padding: 10px 30px 10px 30px;
+    border: 2px solid black;
+    border-radius: 5px;
+    font-family: 'Inter', sans-serif !important;
+}
+
+.moon-icon {
+    display: none;
+}
+
+.sun-icon {
+    position: relative;
+    float: right;
+    top: 4vh;
+    cursor: pointer;
+}
+
+/* theme toggle */
+.dark {
+    background-color: #ffffff;
+    color: #000000;
+    ;
+}
+
+.light-icon {
+    display: none;
+}
+
+.dark-icon {
+    position: relative;
+    display: block;
+    float: right;
+    top: 4vh;
+    cursor: pointer;
+    color: black;
+}
+
+.dark-name {
+    color: #7bb0ffd6;
+}
+
+.icon {
+    color: white;
+}
+
+/* media queries */
+@media only screen and (max-width: 900px) {
+    body {
+        margin-left: 100px;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    body {
+        margin-left: 75px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    body {
+        margin-left: 45px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    body {
+        margin-left: 25px;
+    }
+}
