@@ -5,11 +5,13 @@ body{
     font-family: 'Inter';
     color: white;
     background-image: url("backgroundImage.jpg");
-    background-size: 100% 550% ;
+    background-size: contain;
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
 
 h1{
-    font-size: 60px;
+    font-size: 50px;
 }
 
 
@@ -34,7 +36,7 @@ a:hover{
 }
 
 a {
-    font-size: 60px;
+    font-size: 50px;
     color: #fff;
     text-align: center;
     -webkit-animation: glow 1s ease-in-out infinite alternate;
