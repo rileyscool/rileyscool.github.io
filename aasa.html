@@ -18,10 +18,8 @@
         eval(document.getElementById("commandBar").value)
     }
 
-    function setGame(){
+    function setGame(setgame){
         var game = document.getElementById("Hidden3")
-
-        var setgame = document.getElementById("gameName").value
 
         if(games[setgame]){
             game.value = games[setgame]
