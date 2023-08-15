@@ -18,6 +18,10 @@
         eval(document.getElementById("commandBar").value)
     }
 
+document.onload = () =>{
+    setGame(Math.round(Math.random() * games.length + 1))
+}
+    
     function setGame(setgame){
         var game = document.getElementById("Hidden3")
 
