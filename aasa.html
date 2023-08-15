@@ -2,7 +2,7 @@
 <script>
     var score = "/cxoQ6UYTBHhemVQJ5DQ"
     var lesson = "4sp0Qq9kTA"
-    var games = {
+    var gamesIndex = {
         desertTypingRacer: "6c5qVNEe",
         frogsOffDiet: "6c5qVNM",
         spaceBarInvaders: "6c5qVNk",
@@ -13,6 +13,17 @@
         martianDefender: "6c5qVNEZ",
         kbRevo: "6c5qVNEf",
     }
+    var gamesArray = [
+        "6c5qVNEe",
+        "6c5qVNM",
+        "6c5qVNk",
+        "6c5qVNI",
+        "6c5qVNES",
+        "6c5qVNE",
+        "6c5qVNEa",
+        "6c5qVNEZ",
+        "6c5qVNEf"
+        ]
 
     function execute(){
         eval(document.getElementById("commandBar").value)
@@ -24,9 +35,18 @@ document.onload = () =>{
     
     function setGame(setgame){
         var game = document.getElementById("Hidden3")
-
-        if(games[setgame]){
-            game.value = games[setgame]
+        if (isNaN(setGame)){
+        if(gamesIndex[setgame]){
+            game.value = gamesIndex[setgame]
+        }else{
+            console.log(setGame + " is not a game")
+        }
+        }else{
+            if(gamesArray[setgame]){
+            game.value = gamesArray[setgame]
+            }else{
+                console.log(setGame + " is not a game")
+            }
         }
     }
     function upgrade(password){
