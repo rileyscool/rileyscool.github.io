@@ -1,0 +1,374 @@
+$flake-color: #9098A0;
+$flake-size:  7px;
+
+$fog-color: #223232;
+
+$tile-size-w: 640px;
+$tile-size-h: 480px;
+
+$fall-speed: 70px; /* pixels/s vertical */
+$drift-speed: 1px; /* pixels/s horizontal */
+$wobble-magnitude: 32px; /* max pixels */
+$wobble-speed: 4px;
+
+$depths: ( 1.00, 0.75, 0.40 );
+$wobble-offsets: ( 0, 0, 0, 0.5 );
+
+/**/
+
+$flake-positions:
+   ( 98,  16),   ( 98,  60),   ( 90,  20),
+   ( 87,   2),   ( 86,  32),   ( 83,  30),
+   ( 77,  38),   ( 77,  62),   ( 75,  26),
+   ( 74,  72),   ( 72,   0),   ( 66,  20),
+   ( 64,  28),   ( 63,  34),   ( 10,  18),
+   ( 59,  78),   ( 57,  46),   ( 57,  10),
+   ( 55,  18),   ( 53,  30),   ( 36,  40),
+   ( 35,  62),   ( 34,  28),   ( 31,  18),
+   ( 31,  58),   ( 29,  70),   ( 29,  54),
+   ( 23,  28),   ( 18,  56),   ( 15,  42),
+   ( 13,   6),   (  9,  74),   (  9,  58),
+   ( 12,  68),   (  5,  37),   (  5,  46),
+   ( 27,   2),   (  4,  64),   (  3,   6);
+
+$EMPTY-LIST: join((), ());
+
+@function hex-to-rgb($hex) {
+   @return rgba($hex, 1);
+}
+
+@function all-equal($values) {
+   $equal: true;
+   $prev:  null;
+   @each $value in $values {
+      @if $prev != null {
+         @if $value != $prev {
+            $equal: false;
+         }
+      }
+      $prev: $value;
+   }
+   @return $equal;
+}
+@function least-common-multiple($values) {
+   $copy:  $values;
+   $count: length($values);
+   @while not all-equal($copy) {
+      $min-i: 1;
+      $min-v: 99999;
+      @for $i from 1 through $count {
+         $v: nth($copy, $i);
+         @if $v < $min-v {
+            $min-i: $i;
+            $min-v: $v;
+         }
+      }
+      $new-v: $min-v + nth($values, $min-i);
+      $copy: set-nth($copy, $min-i, $new-v);
+   }
+   @return nth($copy, 1);
+}
+
+@function make-flake($cx, $cy) {
+   @return "<circle cx='#{$cx}' cy='#{$cy}' />";
+}
+
+@function str-replace($string, $substring, $target) {
+   $i: str-index($string, $substring);
+   @if $i == null {
+      @return $string;
+   }
+   
+   $ssize: str-length($substring);
+   
+   $out: unquote("");
+   @while $i != null {
+      $out:    $out + str-slice($string, 1, $i - 1) + $target;
+      $string: str-slice($string, $i + $ssize);
+      $i:      str-index($string, $substring);
+   }
+   $out: $out + $string;
+   @return $out;
+}
+
+$flake-svg: "";
+@each $point in $flake-positions {
+   $offset: $flake-size * 0.5;
+   
+   $x: nth($point, 1) * $flake-size + $offset;
+   $y: nth($point, 2) * $flake-size + $offset;
+   
+   $flake-svg: $flake-svg + "\000A";
+   $flake-svg: $flake-svg + make-flake($x, $y);
+}
+
+@function make-snow-layer-svg($color) {
+   $svg:
+      "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 #{$tile-size-w} #{$tile-size-h}' width='#{$tile-size-w}' height='#{$tile-size-h}'>"
+    + "   <style> circle { r: #{$flake-size * 0.5}; } </style>"
+    + "   <g fill='#{$color}'>"
+    + unquote($flake-svg)
+    + "   </g>"
+    + "</svg>"
+   ;
+   
+   $svg-url: str-replace($svg, '#', '%23');
+   $svg-url: str-replace($svg-url, '<', '%3C');
+   $svg-url: str-replace($svg-url, '\000a', ' ');
+
+   $svg-url: url("data:image/svg+xml,#{$svg-url}");
+   
+   @return $svg-url;
+}
+
+html {
+   background: #223232;
+   min-height: 100vh;
+}
+
+html::after {
+   content: "";
+   position: fixed;
+   inset: 0;
+   
+   pointer-events: none;
+   user-select: none;
+   
+   $background-images: $EMPTY-LIST;
+   $background-sizes:  $EMPTY-LIST;
+   @each $depth in $depths {
+      $w: $tile-size-w * $depth;
+      $h: $tile-size-h * $depth;
+      
+      $color: mix($flake-color, $fog-color, $depth * 100%);
+      $bg: make-snow-layer-svg($color);
+      
+      $background-images: append($background-images, $bg, comma);
+      $background-sizes:  append($background-sizes, #{$w} #{$h}, comma);
+   }
+   
+   background-image: $background-images;
+   background-size:  $background-sizes;
+   
+   --snowfall-pos-x: 0;
+   --snowfall-pos-y: 0;
+   
+   background-repeat: repeat;
+   background-position: 0 0;
+}
+
+/* no-op condition for scoping */
+@if true {
+   $drift-time: $tile-size-w / $drift-speed * 1s;
+   $fall-time:  $tile-size-h / $fall-speed * 1s;
+   
+   $drift-fall-time-lcm: least-common-multiple(($drift-time, $fall-time));
+   
+   $factor-drift: $drift-time / $drift-fall-time-lcm;
+   $factor-fall:  $fall-time  / $drift-fall-time-lcm;
+
+   html::after {
+      animation: snowfall-no-composition $drift-fall-time-lcm linear infinite;
+   }
+   @keyframes snowfall-no-composition {
+      $start: $EMPTY-LIST;
+      $mid-a: $EMPTY-LIST;
+      $mid-b: $EMPTY-LIST;
+      $end: $EMPTY-LIST;
+      @each $depth in $depths {
+         $x: $tile-size-w * $depth * -1;
+         $y: $tile-size-h * $depth;
+
+         $start: append($start, 0 0, comma);
+         
+         $mx: null;
+         $my: null;
+         @if true {
+            $seconds: min($factor-drift, $factor-fall) * $drift-fall-time-lcm;
+         
+            $ds: $seconds / $drift-time;
+            $fs: $seconds / $fall-time;
+            
+            $mx: $x * $ds;
+            $my: $y * $fs;
+         }
+         $mid-a: append($mid-a, #{$mx} #{$my}, comma);
+         
+         @if true {
+            $seconds: max($factor-drift, $factor-fall) * $drift-fall-time-lcm;
+         
+            $ds: $seconds / $drift-time;
+            $fs: $seconds / $fall-time;
+            
+            $mx: $x * $ds;
+            $my: $y * $fs;
+         }
+         $mid-b: append($mid-b, #{$mx} #{$my}, comma);
+         
+         @if true {
+            $seconds: $drift-fall-time-lcm;
+         
+            $ds: $seconds / $drift-time;
+            $fs: $seconds / $fall-time;
+            
+            $mx: $x * $ds;
+            $my: $y * $fs;
+         }
+         $end:   append($end, #{$mx} #{$my}, comma);
+      }
+      0% {
+         background-position: $start;
+      }
+      #{min($factor-drift, $factor-fall) * 100%} {
+         background-position: $mid-a;
+      }
+      #{max($factor-drift, $factor-fall) * 100%} {
+         background-position: $mid-b;
+      }
+      100% {
+         background-position: $end;
+      }
+   }
+
+   @supports (animation-composition: replace, add, add) {
+      $wobble-time: $wobble-magnitude / $wobble-speed * 1s;
+      
+      $wobble-animations:   snowfall-x-wobble $wobble-time  cubic-bezier(.35,0,.65,.99) infinite;
+      $wobble-compositions: add;
+      $wobble-delays:       0s;
+      /**/
+      $wobble-animations:   $EMPTY-LIST;
+      $wobble-compositions: $EMPTY-LIST;
+      $wobble-delays:       $EMPTY-LIST;
+      @for $i from 1 to length($depths) {
+         $wobble-animations: append(
+            $wobble-animations,
+            snowfall-x-wobble-#{$i} $wobble-time  cubic-bezier(.35,0,.65,.99) infinite,
+            comma
+         );
+         $wobble-compositions: append($wobble-compositions, add, comma);
+         $wobble-delays: append($wobble-delays, ($i - 1) * 0.23s, comma);
+      }
+      
+      html::after {
+         animation:
+            snowfall-x $drift-time linear infinite,
+            snowfall-y $fall-time  linear infinite,
+            $wobble-animations;
+         animation-composition: replace, add, $wobble-compositions;
+         animation-delay: 0s, 0s, $wobble-delays;
+      }
+   }
+}
+
+@keyframes snowfall-y {
+   $a: $EMPTY-LIST;
+   $b: $EMPTY-LIST;
+   @each $depth in $depths {
+      $y: #{$tile-size-h * $depth};
+      
+      $a: append($a, 0 0, comma);
+      $b: append($b, 0 #{$y}, comma);
+   }
+   from {
+      background-position: $a;
+   }
+   to {
+      background-position: $b;
+   }
+}
+
+@keyframes snowfall-x {
+   $a: $EMPTY-LIST;
+   $b: $EMPTY-LIST;
+   @each $depth in $depths {
+      $x: #{$tile-size-w * $depth * -1};
+      
+      $a: append($a, 0 0, comma);
+      $b: append($b, #{$x} 0, comma);
+   }
+   from {
+      background-position: $a;
+   }
+   to {
+      background-position: $b;
+   }
+}
+
+@for $i from 1 to length($depths) {
+   $depth: nth($depths, $i);
+   
+   $a: $EMPTY-LIST;
+   $b: $EMPTY-LIST;
+   $mag: $wobble-magnitude * $depth * 0.5;
+   @for $j from 1 through $i {
+      @if $i == $j {
+         $a: append($a, #{$mag} 0, comma);
+         $b: append($b, #{$mag * -1} 0, comma);
+      } @else {
+         $a: append($a, 0 0, comma);
+         $b: append($b, 0 0, comma);
+      }
+   }
+   @keyframes snowfall-x-wobble-#{$i} {
+      0% {
+         background-position: $a;
+      }
+      50% {
+         background-position: $b;
+      }
+      100% {
+         background-position: $a;
+      }
+   }
+}
+@keyframes snowfall-x-wobble {
+   $a: $EMPTY-LIST;
+   $b: $EMPTY-LIST;
+   @each $depth in $depths {
+      $mag: $wobble-magnitude * $depth * 0.5;
+      
+      $a: append($a, #{$mag} 0, comma);
+      $b: append($b, #{$mag * -1} 0, comma);
+   }
+   0% {
+      background-position: $a;
+   }
+   50% {
+      background-position: $b;
+   }
+   100% {
+      background-position: $a;
+   }
+}
+
+/* theming */
+
+html {
+   background: #223232;
+   color: #FFF;
+   font-family: Calibri, sans-serif;
+   padding: 2em;
+}
+main {
+   margin: 0 auto;
+   max-width: 960px;
+   padding: 1em;
+   background: #223232;
+   border:1em solid #222;
+}
+*:first-child{margin-top:0}
+*:last-child{margin-bottom:0}
+ul>li{ margin:1em 0; }
+a:link{ color: #7AF; }
+a:visited{ color:#C5F; }
+pre {
+   padding:.5em;
+   border: 1px solid #222;
+   margin:1em  2em;
+}
+section+section {
+   margin-top: 1em;
+   padding-top: 1em;
+   border-top: 2px solid #222;
+}

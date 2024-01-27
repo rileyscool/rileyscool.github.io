@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+body{
+    background-color: #223232; 
+    color: white;
+    font-family: 'Inter', Verdana;
+}
+
+.title{
+    margin-top: 100px;
+    color: rgb(94, 255, 62);
+    font-size: 80;
+}
+
