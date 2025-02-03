@@ -1,9 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="/SASS/specials.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>riely.me</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<center><h1 class="title">riely.me</h1></center>
+<div class="container">
+    <h1>riely.me</h1>
+    <div class="discord-info">
+        <div id="avatar-container" class="avatar-container">
+            <img id="discord-avatar" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Discord Avatar" class="avatar">
+        </div>
+        <p id="discord-activity">Activity: Loading...</p>
+    </div>
+
+    <div id="spotify-info" class="spotify-container" style="display: none;"></div>
+
+    <div class="time">
+        <p id="current-time">Local Time: Loading...</p>
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
+</html>
