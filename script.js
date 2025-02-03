@@ -19,8 +19,9 @@ async function fetchDiscordStatus() {
         else avatarContainer.classList.add("offline");
 
         // Update activity
+        if(!data.activity == "No activity"){
         document.getElementById("discord-activity").textContent = `Activity: ${data.activity}`;
-
+        }
         // Handle Spotify Activity
         const spotifyContainer = document.getElementById("spotify-info");
         if (data.song) {
