@@ -21,6 +21,8 @@ async function fetchDiscordStatus() {
         // Update activity
         if(!data.activity == "No activity"){
         document.getElementById("discord-activity").textContent = `Activity: ${data.activity}`;
+        }else{
+            document.getElementById("discord-activity").textContent = "";
         }
         // Handle Spotify Activity
         const spotifyContainer = document.getElementById("spotify-info");
