@@ -1,6 +1,6 @@
 async function fetchDiscordStatus() {
     try {
-        const response = await fetch(`http://159.13.54.250:3000/discord-status`);
+        const response = await fetch("https://riely.me/discord-status");
         const data = await response.json();
 
         // Update avatar
