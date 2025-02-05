@@ -19,11 +19,12 @@ async function fetchDiscordStatus() {
         else avatarContainer.classList.add("offline");
 
         // Update activity
-        if(!data.activity == "No activity"){
-        document.getElementById("discord-activity").textContent = `Activity: ${data.activity}`;
-        }else{
+        if (data.activity && data.activity !== "No activity") {
+            document.getElementById("discord-activity").textContent = `Activity: ${data.activity}`;
+        } else {
             document.getElementById("discord-activity").textContent = "";
         }
+
         // Handle Spotify Activity
         const spotifyContainer = document.getElementById("spotify-info");
         if (data.song) {
@@ -39,13 +40,24 @@ async function fetchDiscordStatus() {
         }
 
         // Display Local Time in New Zealand Timezone
-        const localTimeElement = document.getElementById("current-time");
-        const nzTime = new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auckland" });
-        const formattedTime = new Date(nzTime).toLocaleTimeString("en-NZ", { hour: "2-digit", minute: "2-digit", hour12: true });
-        localTimeElement.textContent = `Local Time: ${formattedTime}`;
     } catch (error) {
         console.error("Error fetching Discord status:", error);
         document.getElementById("discord-activity").textContent = "Activity: Unavailable";
+    }
+}
+function updateTime() {
+    const localTimeElement = document.getElementById("current-time");
+    const formattedTime = new Date().toLocaleTimeString("en-NZ", { hour: "2-digit", minute: "2-digit", hour12: true,timeZone: "Pacific/Auckland"  });
+    localTimeElement.textContent = `Local Time: ${formattedTime}`;
+}
+
+setInterval(updateTime, 1000);
+updateTime();
+
+window.onload = () =>{
+    if (/Mobi|Android/i.test(navigator.userAgent)) {
+        console.log("phone");
+        document.getElementsByClassName("phone")[0].style.display = "block";
     }
 }
 
