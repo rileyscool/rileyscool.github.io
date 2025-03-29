@@ -1,0 +1,37 @@
+<div id="buttonContainer">
+
+</div>
+
+<style>
+    button{
+        padding: 20px 50px;
+        margin: 30px 30px;
+        color: white;
+        font-size: 20px;
+        background-color: green;
+        border: none;
+        border-radius: 5px;
+    }
+</style>
+
+<script>
+    const data = {
+    "Jerk Off": `loadstring(game:HttpGet("https://pastefy.app/YZoglOyJ/raw"))()`,
+    email: "john.doe@example.com",
+    phone: "123-456-7890"
+};
+
+const container = document.getElementById("buttonContainer");
+
+Object.entries(data).forEach(([key, value]) => {
+    const button = document.createElement("button");
+    button.textContent = `${key}`;
+    button.onclick = () => {
+        navigator.clipboard.writeText(value).then(() => {
+            alert(`${key} copied!`);
+        });
+    };
+    container.appendChild(button);
+});
+
+</script>
