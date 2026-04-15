@@ -1,36 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>riely.me</title>
+    <title>Riely</title>
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<div class="container">
-    <h1>riely.me</h1>
-    <div class="discord-info">
-        <div id="avatar-container" class="avatar-container">
-            <img id="discord-avatar" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Discord Avatar" class="avatar">
+    <div class="card">
+        <img src="this.png" alt="Profile Photo" class="profile-photo">
+        <h1 class="name">riely</h1>
+
+        <div class="time-container">
+            <i class="fa-regular fa-clock"></i>
+            <span id="akl-time">Loading time...</span>
+            <span class="timezone"> (Auckland)</span>
         </div>
-        <p id="discord-activity"></p>
+
+        <div class="links">
+            <a href="https://www.last.fm/user/rielyy" target="_blank" class="link-btn lastfm" aria-label="Last.fm">
+                <i class="fa-brands fa-lastfm"></i>
+            </a>
+            <a href="https://discord.com/users/933865035829227571" target="_blank" class="link-btn discord"
+                aria-label="Discord">
+                <i class="fa-brands fa-discord"></i>
+            </a>
+            <a href="mailto:riely@riely.me" class="link-btn email" aria-label="Email">
+                <i class="fa-solid fa-envelope"></i>
+            </a>
+        </div>
     </div>
 
-    <div id="spotify-info" class="spotify-container" style="display: none;"></div>
-
-    <div class="time">
-        <p id="current-time">Local Time: Loading...</p>
-    </div>
-    <div class="social-links">
-        <a href="https://github.com/rileyscool" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://open.spotify.com/user/3126jt64hx2elpr3cah62lk25i4m" target="_blank"><i class="fab fa-spotify"></i></a>
-        <a href="https://discord.com/users/933865035829227571" target="_blank"><i class="fab fa-discord"></i></a>
-        <a href="https://riely.me/ai" target="_blank"><i class="fa-solid fa-robot"></i></a>
-        <a href="tel:+6202885103829" target="_blank" class="phone"><i class="fa-solid fa-phone"></i></a>
-    </div>
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
+
 </html>

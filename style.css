@@ -1,102 +1,170 @@
-/* Dark mode styles */
-body {
-    background-color: #121212;
-    color: #ffffff;
-    font-family: Arial, sans-serif;
+:root {
+    --bg-color: #0d0d0f;
+    --card-bg: #161619;
+    --text-primary: #f0f0f0;
+    --text-secondary: #9a9a9d;
+    --border-color: rgba(255, 255, 255, 0.05);
+
+    /* Brand Colors */
+    --lastfm-color: #d51007;
+    --discord-color: #5865F2;
+    --email-color: #e0e0e0;
+    --glow-opacity: 0.3;
+}
+
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    overflow: hidden;
+    /* Subtle background grid or glow */
+    background-image: radial-gradient(circle at 50% 0%, #1e1e24 0%, var(--bg-color) 70%);
 }
 
-.container {
+.card {
+    background-color: var(--card-bg);
+    padding: 3rem 4rem;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.05);
     text-align: center;
-    background-color: #1e1e1e;
-    padding: 50px;
-    border-radius: 10px;
-    width: 300px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    transform: translateY(0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeIn 0.8s ease-out;
 }
 
-h1 {
-    margin-bottom: 20px;
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.08);
 }
 
-.avatar-container {
-    display: inline-block;
-    border-radius: 42%;
-    border: 4px solid red; /* Change color dynamically */
-    padding: 0; /* Ensure no extra spacing */
-    overflow: hidden; /* Crop any extra space */
-    width: 100px; /* Match avatar size */
-    height: 100px;
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    border: 2px solid var(--border-color);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.avatar {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensure image fills the container */
-    display: block; /* Remove any inline spacing issues */
+.name {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.5px;
+    background: linear-gradient(90deg, #fff, #9a9a9d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
-.social-links {
-    margin-top: 20px;
+
+.time-container {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.time-container i {
+    color: var(--text-primary);
+}
+
+#akl-time {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.links {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 1.2rem;
 }
 
-.social-links a {
-    color: #ffffff;
-    font-size: 24px;
-    transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
+.link-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.03);
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    text-decoration: none;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
 }
 
-.social-links a:hover {
-    color: #ffffff; /* Spotify Green */
-    transform: scale(1.2);
+/* Base Hover Effects */
+.link-btn:hover {
+    color: #fff;
+    transform: scale(1.15);
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
-
-
-
-.online { border-color: #43b581; box-shadow: 0 0 10px #43b581;}    /* Green */
-.idle { border-color: #faa61a; box-shadow: 0 0 10px #faa61a;}      /* Yellow */
-.dnd { border-color: #f04747; box-shadow: 0 0 10px #f04747;}       /* Red */
-.offline { border-color: #747f8d; box-shadow: 0 0 10px #747f8d;}   /* Grey */
-
-.discord-info p, .time p {
-    margin: 10px 0;
-    font-size: 18px;
+/* Brand Specific Colors */
+.link-btn.lastfm:hover {
+    color: var(--lastfm-color);
+    border-color: var(--lastfm-color);
+    box-shadow: 0 0 20px rgba(213, 16, 7, var(--glow-opacity));
 }
 
-.spotify-container {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #282828;
-    border-radius: 10px;
-    text-align: center;
-    color: #1db954;
-    margin-bottom: 20px;
+.link-btn.discord:hover {
+    color: var(--discord-color);
+    border-color: var(--discord-color);
+    box-shadow: 0 0 20px rgba(88, 101, 242, var(--glow-opacity));
 }
 
-.phone{
-    display: none;
+.link-btn.email:hover {
+    color: var(--email-color); 
+    border-color: var(--email-color);
+    box-shadow: 0 0 20px rgba(224, 224, 224, var(--glow-opacity));
 }
 
-.avatar-container, .spotify-container, .album-cover {
-    transition: transform 0.3s ease-in-out;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.avatar-container:hover, .spotify-container:hover {
-    transform: scale(1.05);
-}
-
-
-.album-cover {
-    width: 100px;
-    height: 100px;
-    border-radius: 10px;
-    margin-top: 10px;
+@media (max-width: 480px) {
+    .card {
+        padding: 2.5rem 2rem;
+        width: 90%;
+    }
+    .name {
+        font-size: 2rem;
+    }
+    .link-btn {
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.3rem;
+    }
 }
