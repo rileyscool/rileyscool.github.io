@@ -13,6 +13,15 @@
 </head>
 
 <body>
+    <!-- Full-page blur overlay. Click or press Enter/Space to play music -->
+    <div id="audio-overlay" class="audio-overlay" role="button" tabindex="0" aria-label="Play background music">
+        <div class="overlay-content">
+            <i class="fa-solid fa-music"></i>
+            <p>click to enter</p>
+        </div>
+    </div>
+    <!-- Snow background container (decorative) placed behind the card -->
+    <div class="snow-container" aria-hidden="true"></div>
     <div class="card">
         <img src="this.png" alt="Profile Photo" class="profile-photo">
         <h1 class="name">riely</h1>
@@ -35,6 +44,16 @@
                 <i class="fa-solid fa-envelope"></i>
             </a>
         </div>
+
+        <!-- Audio controls (play/pause removed; keep mute button) -->
+        <div class="audio-controls" aria-label="Background music controls">
+            <button id="audio-mute" class="link-btn" aria-pressed="false" aria-label="Mute music">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+        </div>
+
+        <!-- Background audio file: place a file named music.mp3 in the site root -->
+        <audio id="bg-audio" src="music.mp3" loop preload="auto" autoplay muted></audio>
     </div>
 
     <script src="script.js"></script>

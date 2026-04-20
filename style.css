@@ -43,6 +43,7 @@ body {
     transform: translateY(0);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     animation: fadeIn 0.8s ease-out;
+    z-index: 1;
 }
 
 .card:hover {
@@ -98,6 +99,96 @@ body {
     display: flex;
     justify-content: center;
     gap: 1.2rem;
+}
+
+.audio-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+}
+
+.audio-controls .link-btn {
+    width: 2.8rem;
+    height: 2.8rem;
+    font-size: 1.05rem;
+}
+
+/* Full-page overlay shown until user starts audio */
+.audio-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 6, 8, 0.6);
+    backdrop-filter: blur(8px) saturate(0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    opacity: 1;
+    visibility: visible;
+    cursor: pointer;
+}
+
+.audio-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.overlay-content {
+    text-align: center;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.overlay-content i {
+    font-size: 2rem;
+}
+
+.overlay-content p {
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.audio-overlay:focus {
+    outline: 3px solid rgba(255,255,255,0.08);
+}
+
+/* Snow / falling dots */
+.snow-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.snowflake {
+    position: absolute;
+    top: -10vh;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.85;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+    will-change: transform, opacity;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10vh) translateX(0) rotate(0deg);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(110vh) translateX(30px) rotate(180deg);
+        opacity: 0.7;
+    }
 }
 
 .link-btn {
